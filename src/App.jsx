@@ -1,35 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import EmojiSelector from "./components/EmojiSelector";
+import Board from "./components/Board";
+import GameInfo from "./components/GameInfo";
+import HelpModal from "./components/HelpModal";
+import WinBanner from "./components/WinBanner";
+import "./index.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [playerEmojis, setPlayerEmojis] = useState({ P1: [], P2: [] });
+  const [selected, setSelected] = useState(false);
+  const [currentPlayer, setCurrentPlayer] = useState("P1");
+  const [winner, setWinner] = useState(null);
+  const [showHelp, setShowHelp] = useState(false);
+  const [resetSignal, setResetSignal] = useState(0); // for triggering board reset
+
+  const handleReset = () => {
+    setPlayerEmojis({ P1: [], P2: [] });
+    setSelected(false);
+    setCurrentPlayer("P1");
+    setWinner(null);
+    setShowHelp(false);
+    setResetSignal((prev) => prev + 1); // force Board re-render
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="app">
+      <h1>Blink Tac Toe 🎮</h1>
+      {!selected ? (
+        <EmojiSelector setPlayerEmojis={setPlayerEmojis} setSelected={setSelected} />
+      ) : (
+        <>
+          <GameInfo
+            currentPlayer={currentPlayer}
+            setShowHelp={setShowHelp}
+            onReset={handleReset}
+          />
+          <Board
+            playerEmojis={playerEmojis}
+            currentPlayer={currentPlayer}
+            setCurrentPlayer={setCurrentPlayer}
+            winner={winner}
+            setWinner={setWinner}
+            resetSignal={resetSignal}
+          />
+        </>
+      )}
+      {winner && <WinBanner winner={winner} onPlayAgain={handleReset} />}
+      {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
+    </div>
+  );
 }
 
-export default App
+export default App;
