@@ -23,8 +23,10 @@ function App() {
     setResetSignal((prev) => prev + 1); // force Board re-render
   };
 
+
   return (
     <div className="app">
+       <button onClick={() => setShowHelp(true)} className="help-btn">❓ Help</button>
       <h1>Blink Tac Toe 🎮</h1>
       {!selected ? (
         <EmojiSelector setPlayerEmojis={setPlayerEmojis} setSelected={setSelected} />
@@ -32,7 +34,6 @@ function App() {
         <>
           <GameInfo
             currentPlayer={currentPlayer}
-            setShowHelp={setShowHelp}
             onReset={handleReset}
           />
           <Board
