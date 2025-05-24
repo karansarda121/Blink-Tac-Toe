@@ -16,6 +16,7 @@ function App() {
   const [showHelp, setShowHelp] = useState(false);
   const [resetSignal, setResetSignal] = useState(0); // for triggering board reset
   const [scores, setScores] = useState({ P1: 0, P2: 0 });
+  const [name,setname]=useState(["P1", "P2"]);
 
 
   const handleReset = () => {
@@ -39,17 +40,28 @@ function App() {
     setScores({ P1: 0, P2: 0 });
   };
   
-
+  const handleclick = () => { setSelected(!selected) };
+  const handlechange = (e) => {
+    const index = e.target.placeholder === "name of player 1" ? 0 : 1;
+    setname((prev) => {
+      const newNames = [...prev];
+      newNames[index] = e.target.value;
+      return newNames;
+    });
+  }
 
   return (
     <div className="app">
       <button onClick={() => setShowHelp(true)} className="help-btn">❓ Help</button>
-      <ScoreBoard scores={scores} onResetScores={handleResetScores} />
+      <ScoreBoard scores={scores} onResetScores={handleResetScores} name={ name} />
+      <input type="text" placeholder="name of player 1" onChange={handlechange} value={name[0] } />
+      <input type="text" placeholder="name of player 2" onChange={handlechange} value={name[1]} />
       <h1>Blink Tac Toe 🎮</h1>
       {!selected ? (
-        <EmojiSelector setPlayerEmojis={setPlayerEmojis} setSelected={setSelected} />
+        <EmojiSelector setPlayerEmojis={setPlayerEmojis} setSelected={setSelected} name={ name} />
       ) : (
-        <>
+          <>
+          <button onClick={handleclick}>Home</button>
           <GameInfo
             currentPlayer={currentPlayer}
             onReset={handleReset}

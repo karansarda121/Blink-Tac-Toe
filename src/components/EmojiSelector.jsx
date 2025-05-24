@@ -6,12 +6,16 @@ const emojiCategories = {
   Sports: ["⚽", "🏀", "🏈", "🎾"]
 };
 
-function EmojiSelector({ setPlayerEmojis, setSelected }) {
+function EmojiSelector({ setPlayerEmojis, setSelected,name }) {
   const [p1Choice, setP1Choice] = useState(null);
   const [p2Choice, setP2Choice] = useState(null);
   const [error, setError] = useState("");
 
-  const handleStart = () => {
+    const handleStart = () => {
+      if(name[0] === "" || name[1] === "") {
+        setError("Both players must enter their names.");
+        return;
+      }
     if (!p1Choice || !p2Choice) {
       setError("Both players must choose a category.");
       return;
@@ -36,7 +40,7 @@ function EmojiSelector({ setPlayerEmojis, setSelected }) {
           <h3>Player 1</h3>
           {Object.keys(emojiCategories).map((cat) => (
             <button
-              key={cat}
+              key={`P1-${cat}`}
               className={p1Choice === cat ? "selected" : ""}
               onClick={() => setP1Choice(cat)}
             >
@@ -48,7 +52,7 @@ function EmojiSelector({ setPlayerEmojis, setSelected }) {
           <h3>Player 2</h3>
           {Object.keys(emojiCategories).map((cat) => (
             <button
-              key={cat}
+              key={`P2-${cat}`}
               className={p2Choice === cat ? "selected" : ""}
               onClick={() => setP2Choice(cat)}
             >
