@@ -11,3 +11,5 @@ function Cell({ value, onClick, highlight, vanishing }) {
   }
   export default Cell;
 
+
+

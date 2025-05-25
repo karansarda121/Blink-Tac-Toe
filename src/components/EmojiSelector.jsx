@@ -6,16 +6,12 @@ const emojiCategories = {
   Sports: ["⚽", "🏀", "🏈", "🎾"]
 };
 
-function EmojiSelector({ setPlayerEmojis, setSelected,name }) {
+function EmojiSelector({ setPlayerEmojis, setSelected }) {
   const [p1Choice, setP1Choice] = useState(null);
   const [p2Choice, setP2Choice] = useState(null);
   const [error, setError] = useState("");
 
-    const handleStart = () => {
-      if(name[0] === "" || name[1] === "") {
-        setError("Both players must enter their names.");
-        return;
-      }
+  const handleStart = () => {
     if (!p1Choice || !p2Choice) {
       setError("Both players must choose a category.");
       return;

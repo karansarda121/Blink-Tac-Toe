@@ -270,22 +270,5 @@ h1 {
 }
 
 
-.cell.blocked-hover {
-  background-color: #ffe2e2;
-  cursor: not-allowed;
-}
 
-.cell.blocked-hover::after {
-  content: "🚫 Just vanished!";
-  position: absolute;
-  font-size: 12px;
-  background: #f44336;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  top: -28px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  white-space: nowrap;
-}
+

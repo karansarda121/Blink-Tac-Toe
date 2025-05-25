@@ -16,13 +16,14 @@ function App() {
   const [showHelp, setShowHelp] = useState(false);
   const [resetSignal, setResetSignal] = useState(0); // for triggering board reset
   const [scores, setScores] = useState({ P1: 0, P2: 0 });
-  const [name,setname]=useState(["P1", "P2"]);
+  
+  
 
 
   const handleReset = () => {
     setPlayerEmojis({ P1: [], P2: [] });
     setSelected(false);
-    setCurrentPlayer("P1");
+    setCurrentPlayer(name[0] || "P1");
     setWinner(null);
     setShowHelp(false);
     setResetSignal((prev) => prev + 1); // force Board re-render
@@ -32,7 +33,7 @@ function App() {
   const handlePlayAgain = () => {
     // Full reset to go back to category selection
     setWinner(null);
-  setCurrentPlayer("P1");
+  setCurrentPlayer(name[0] || "P1");
   setResetSignal((prev) => prev + 1);
   };
   
@@ -40,40 +41,42 @@ function App() {
     setScores({ P1: 0, P2: 0 });
   };
   
-  const handleclick = () => { setSelected(!selected) };
-  const handlechange = (e) => {
-    const index = e.target.placeholder === "name of player 1" ? 0 : 1;
-    setname((prev) => {
-      const newNames = [...prev];
-      newNames[index] = e.target.value;
-      return newNames;
-    });
-  }
+  const handleclick = () => {
+    setWinner(null);
+    setCurrentPlayer(name[0] || "P1");
+    setResetSignal((prev) => prev + 1);
+    setSelected(!selected)
+  };
+
 
   return (
     <div className="app">
       <button onClick={() => setShowHelp(true)} className="help-btn">❓ Help</button>
-      <ScoreBoard scores={scores} onResetScores={handleResetScores} name={ name} />
-      <input type="text" placeholder="name of player 1" onChange={handlechange} value={name[0] } />
-      <input type="text" placeholder="name of player 2" onChange={handlechange} value={name[1]} />
+      <ScoreBoard scores={scores} onResetScores={handleResetScores}  />
       <h1>Blink Tac Toe 🎮</h1>
       {!selected ? (
-        <EmojiSelector setPlayerEmojis={setPlayerEmojis} setSelected={setSelected} name={ name} />
+        <>
+          <h3>The first who chosses the emoji is player 1</h3>
+          <EmojiSelector setPlayerEmojis={setPlayerEmojis} setSelected={setSelected}   />
+          </>
       ) : (
           <>
           <button onClick={handleclick}>Home</button>
           <GameInfo
             currentPlayer={currentPlayer}
-            onReset={handleReset}
+              onReset={handleReset}
+              playerEmojis={playerEmojis}
+              
             />
           <Board
-            playerEmojis={playerEmojis}
-            currentPlayer={currentPlayer}
-            setCurrentPlayer={setCurrentPlayer}
-            winner={winner}
-            setWinner={setWinner}
+              playerEmojis={playerEmojis}
+              currentPlayer={currentPlayer}
+              setCurrentPlayer={setCurrentPlayer}
+              winner={winner}
+              setWinner={setWinner}
               resetSignal={resetSignal}
               setScores={setScores}
+              
           />
         </>
       )}
