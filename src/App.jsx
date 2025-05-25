@@ -61,7 +61,7 @@ function App() {
           </>
       ) : (
           <>
-          <button onClick={handleclick}>Home</button>
+          <button className="btn" onClick={handleclick}>Home</button>
           <GameInfo
             currentPlayer={currentPlayer}
               onReset={handleReset}
